@@ -1,0 +1,135 @@
+---
+- name: Configure Web Server
+  hosts: all
+  become: yes
+  become_user: root
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - nginx
+          - python3-pip
+          - git
+          - ufw
+          - curl
+        state: present
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: reload nginx
+
+    - name: Create website directory
+      file:
+        path: /var/www/html/mysite
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Create images directory
+      file:
+        path: /var/www/html/mysite/images
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Copy profile image
+      copy:
+        src: files/profile.jpg
+        dest: /var/www/html/mysite/images/profile.jpg
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Deploy website content
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/mysite/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Create nginx site configuration
+      template:
+        src: templates/nginx-site.j2
+        dest: /etc/nginx/sites-available/mysite
+        owner: root
+        group: root
+        mode: '0644'
+      notify: reload nginx
+
+    - name: Enable website
+      file:
+        src: /etc/nginx/sites-available/mysite
+        dest: /etc/nginx/sites-enabled/mysite
+        state: link
+      notify: reload nginx
+
+    - name: Test nginx configuration
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Configure UFW defaults
+      ufw:
+        direction: "{{ item.direction }}"
+        policy: "{{ item.policy }}"
+      loop:
+        - { direction: 'incoming', policy: 'deny' }
+        - { direction: 'outgoing', policy: 'allow' }
+
+    - name: Configure UFW firewall rules
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - '22'
+        - '80'
+        - '443'
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+    - name: Wait for nginx to be ready
+      wait_for:
+        port: 80
+        delay: 5
+        timeout: 60
+
+    - name: Check if website is accessible
+      uri:
+        url: "http://localhost"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 5
+      delay: 10
+
+    - name: Display website status
+      debug:
+        msg: "Website is up and running! Status code: {{ result.status }}"
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded

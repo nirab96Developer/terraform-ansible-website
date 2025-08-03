@@ -1,0 +1,19 @@
+---
+site_title: "DevOps Final Project"
+site_heading: "Welcome to the Final Project of Nir Avitbul"
+student_name: "Nir Avitbul"
+course_name: "DevOps Engineering"
+deployment_date: "{{ ansible_date_time.date }}"
+
+nginx_port: 80
+nginx_user: www-data
+
+site_features:
+  - "Automated infrastructure with Terraform"
+  - "Configuration management using Ansible"
+  - "Continuous deployment pipeline"
+  - "Security best practices"
+
+primary_color: "#2c3e50"
+secondary_color: "#3498db"
+background_color: "#ecf0f1"
