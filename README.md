@@ -148,7 +148,7 @@ terraform-ansible-website/
 ## 🔗 קישורים
 
 - **אתר חי**: http://13.217.102.249
-- **GitHub**: https://github.com/niravitbul/terraform-ansible-website
+- **GitHub**: https://github.com/nirab96Developer/terraform-ansible-website
 - **LinkedIn**: https://www.linkedin.com/in/nir-avitbul
 
 ---
