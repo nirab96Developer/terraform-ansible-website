@@ -67,7 +67,8 @@ terraform-ansible-website/
 │   ├── variables.tf
 │   ├── outputs.tf
 │   ├── terraform.tfvars
-│   └── ansible.cfg
+│   └── ansible/
+│       └── ansible.cfg
 ├── ansible/
 │   ├── playbook.yml
 │   ├── vars/main.yml
@@ -78,6 +79,8 @@ terraform-ansible-website/
 │   │   └── profile.jpg
 │   └── inventory/
 │       └── hosts
+├── scripts/
+│   └── deploy.sh
 └── README.md
 ```
 
