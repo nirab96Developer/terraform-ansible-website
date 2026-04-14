@@ -119,7 +119,7 @@ terraform-ansible-website/
 1. **בדיקת nginx**: `nginx -t` - עבר בהצלחה
 2. **בדיקת localhost**: `curl http://localhost` - מחזיר 200 OK
 3. **בדיקת דפדפן**: פתיחת האתר בדפדפן - עובד מצוין
-4. **כתובת האתר**: http://34.203.229.249 - פעיל ונגיש
+4. **כתובת האתר**: http://13.217.102.249 - פעיל ונגיש
 
 ---
 
@@ -147,7 +147,7 @@ terraform-ansible-website/
 
 ## 🔗 קישורים
 
-- **אתר חי**: http://34.203.229.249
+- **אתר חי**: http://13.217.102.249
 - **GitHub**: https://github.com/niravitbul/terraform-ansible-website
 - **LinkedIn**: https://www.linkedin.com/in/nir-avitbul
 

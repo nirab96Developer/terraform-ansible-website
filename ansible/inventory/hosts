@@ -1,1 +1,1 @@
-34.203.229.249 ansible_user=ubuntu ansible_ssh_private_key_file=/home/nir/.ssh/id_rsa
+13.217.102.249 ansible_user=ubuntu ansible_ssh_private_key_file=/home/nir/.ssh/id_rsa
